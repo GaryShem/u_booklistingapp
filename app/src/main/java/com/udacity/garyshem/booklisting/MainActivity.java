@@ -62,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
         // Otherwise, start the search
         // Reform the query to match Google Books API
         // For this, make an anonymous AsyncTask, so it has direct access to activity
-        AsyncTask<String, Object, ArrayList<Book>> request =
-                new AsyncTask<String, Object, ArrayList<Book>>() {
+        AsyncTask<String, Object, ArrayList<Book>> request = new AsyncTask<String, Object, ArrayList<Book>>() {
             @Override
             protected ArrayList<Book> doInBackground(String... strings) {
                 // Stop if cancelled
@@ -84,13 +83,15 @@ public class MainActivity extends AppCompatActivity {
 
                     int responseCode = connection.getResponseCode();
                     if (responseCode != 200) {
-                        Log.w(getClass().getName(), "GoogleBooksAPI request failed. Response Code: " + responseCode);
+                        Log.w(getClass().getName(),
+                                "GoogleBooksAPI request failed. Response Code: " + responseCode);
                         connection.disconnect();
                         return null;
                     }
                     // Read data from response.
                     StringBuilder builder = new StringBuilder();
-                    BufferedReader responseReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    BufferedReader responseReader = new BufferedReader(
+                            new InputStreamReader(connection.getInputStream()));
                     String line = responseReader.readLine();
                     while (line != null) {
                         builder.append(line);
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 return books;
             }
 
-
+            // After the query finishes, populate the view
             @Override
             protected void onPostExecute(ArrayList<Book> books) {
                 ListView list = (ListView) findViewById(R.id.list_books);
