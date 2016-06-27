@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -133,14 +134,18 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(ArrayList<Book> books) {
+                ListView list = (ListView) findViewById(R.id.list_books);
+                TextView helpTextView = (TextView) findViewById(R.id.help_text_view);
                 // in case we haven't received any books
                 if (books == null) {
                     Log.i(getClass().getName(), "Books is null");
                     return;
+                } else {
+                    helpTextView.setVisibility(View.GONE);
+                    list.setVisibility(View.VISIBLE);
+                    list.setAdapter(new BookAdapter(MainActivity.this, books));
+                    list.invalidateViews();
                 }
-                ListView list = (ListView) findViewById(R.id.list_books);
-                list.setAdapter(new BookAdapter(MainActivity.this, books));
-                list.invalidateViews();
             }
         };
         request.execute(queryText);
