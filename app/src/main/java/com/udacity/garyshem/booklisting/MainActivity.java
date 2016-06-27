@@ -138,7 +138,10 @@ public class MainActivity extends AppCompatActivity {
                 ListView list = (ListView) findViewById(R.id.list_books);
                 TextView helpTextView = (TextView) findViewById(R.id.help_text_view);
                 // in case we haven't received any books
-                if (books == null) {
+                if (books == null || books.size() == 0) {
+                    list.setVisibility(View.GONE);
+                    helpTextView.setVisibility(View.VISIBLE);
+                    helpTextView.setText("Your query didn't return any results");
                     Log.i(getClass().getName(), "Books is null");
                     return;
                 } else {
